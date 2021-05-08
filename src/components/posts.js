@@ -8,19 +8,22 @@ import Error from './error';
 
 class Posts extends Component {
   componentDidMount() {
-    console.log('hello');
+    // fetching posts on page load
     this.props.fetchPosts();
   }
 
   renderPostsOrError() {
+    // rendering error component if error
     if (this.props.error != null) {
       return <Error message="We had trouble getting the Posts from the database. Sorry about that" />;
+    // rendering just the website title header if posts are empty
     } else if (isEmptyObject(this.props.posts)) {
       return (
         <div id="posts_list">
           <h1><i className="fas fa-poo" />Shitake Posts</h1>
         </div>
       );
+    // rendering the list of posts along with website title header
     } else {
       return (
         <div id="posts_list">

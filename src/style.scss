@@ -66,7 +66,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1;
   background-color: $themeColor1;
   height: 1rem;
   padding: .4rem 0px .4rem 0px;
@@ -84,10 +84,54 @@ nav {
     }
   }
 }
-#search_bar {
-  z-index: 101;
+#search_bar_container {
+  z-index: 2;
   position: fixed;
-  
+  top: 0;
+  left: 37%;
+  width: 26%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#search_bar {
+  display: flex;
+  flex-direction: row;
+  margin-top: .33em;
+  width: 30vw;
+  max-width: 400px;
+  height: 1.2em;
+  i {
+    font-size: .9em;
+    z-index: 3;
+    color: $themeColor2;
+    width: 10%;
+    height: 100%;
+    position: relative;
+    right: 1.2em;
+    top: .15em;
+    box-sizing: border-box;
+    cursor: text;
+  }
+  input {
+    font-size: 1em;
+    color: $themeColor2;
+    background: $themeColor1;
+    width: 90%;
+    height: 100%;
+    padding-right: 1.15em;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-color: $themeColor2;
+  }
+  input:focus {
+    outline: solid 6px $themeColor3;
+  }
+  input::placeholder{
+    color: rgba($themeColor3, 0.6);
+  }
 }
 #posts_list {
   margin-top: 1.8rem;
@@ -196,6 +240,8 @@ nav {
   .edit_input {
     margin-bottom: 20px;
     font-size: .6em;
+    color: $themeColor3;
+    background-color: $themeColor1;
   }
   .edit_input:focus {
     outline: solid 6px $themeColor3;
@@ -275,5 +321,13 @@ nav {
   .post_buttons > .button{
     font-size: .7em;
     padding: 0;
+  }
+  #search_bar {
+    width: 22vw;
+    position: relative;
+    right: 5px;
+    input::placeholder {
+      color:rgba(0, 0, 0, 0);
+    }
   }
 }

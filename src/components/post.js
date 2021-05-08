@@ -16,18 +16,23 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editMode: false,
-      disableButton: false, // for disabling buttons after click so you cant spam the server with delete/create requests
+      editMode: false, // edit mode for already created posts
+      // for disabling buttons after click so you cant spam the server with delete/create
+      // requests *might not be neccesary after I added the page transitions*
+      disableButton: false,
       displayWarning: 'none', // display warning when not all inputs are filled out
     };
   }
 
   componentDidMount() {
+    // shouldn't fetch a post when creating a new post
     if (this.props.match.path !== '/posts/new') {
       this.props.fetchPost(this.props.match.params.postID);
     }
   }
 
+  // making the input field driven with the redux state
+  // for content, title, coverUrl, and tags.
   onContentChange = (event) => {
     this.props.editPostLocally({ content: event.target.value });
   }
@@ -44,29 +49,29 @@ class Post extends Component {
     this.props.editPostLocally({ tags: event.target.value });
   }
 
+  // function returns true if post is valid, i.e. has only spaces in any input.
   // the regular expression in the if statement I got online at:
   // https://stackoverflow.com/questions/10261986/how-to-detect-string-which-contains-only-spaces/50971250
   // basically it replaces every space character with an empty string which allows me to check if each of the inputs
-  // is empty. Returns true if post is invalid, i.e. has only spaces in any input.
-  isInvalidInput = (post) => {
-    let invalid = false;
-    if ((post.title?.replace(/\s/g, '').length) && (post.content?.replace(/\s/g, '').length)
-    && (post.coverUrl?.replace(/\s/g, '').length) && (post.tags?.replace(/\s/g, '').length)) {
-      invalid = true;
-    }
-    return invalid;
+  // is empty.
+  isValidInput = (post) => {
+    return ((post.title?.replace(/\s/g, '').length) && (post.content?.replace(/\s/g, '').length)
+    && (post.coverUrl?.replace(/\s/g, '').length) && (post.tags?.replace(/\s/g, '').length));
   }
 
   onConfirmPress = (event) => {
-    if (this.isInvalidInput(this.props.post)) {
+    if (this.isValidInput(this.props.post)) {
       this.setState({ displayWarning: 'none' });
+      // create new post
       if (this.props.match.path === '/posts/new') {
         this.setState({ disableButton: true });
         this.props.createPost(this.props.post, this.props.history);
+      // update existing post
       } else {
         this.setState({ editMode: false });
         this.props.updatePost(this.props.post);
       }
+    // display warning message
     } else {
       this.setState({ displayWarning: 'inline' });
     }
@@ -91,6 +96,7 @@ class Post extends Component {
   }
 
   renderPostOrError() {
+    // rendering error component if there was an error
     if (this.props.error != null && this.props.match.path !== '/posts/new') {
       return (
         <motion.div
@@ -103,6 +109,7 @@ class Post extends Component {
           <Error message="We had trouble processing the request involving this post. Sorry about that" />
         </motion.div>
       );
+    // rendering editable post if user clicks "Edit" or navigated to the new post page
     } else if (this.state.editMode || this.props.match.path === '/posts/new') {
       return (
         <motion.div
@@ -127,8 +134,11 @@ class Post extends Component {
           <div id="warning" style={{ display: `${this.state.displayWarning}` }}>Please fill out all fields.</div>
         </motion.div>
       );
+    // rendering an empty div, mainly here to prevent a brief flash of an empty post
+    // that happens when switching between posts and post
     } else if (isEmptyObject(this.props.post)) {
       return <div />;
+    // else user navigated to a post's page so rendering the post in view mode
     } else {
       return (
         <motion.div

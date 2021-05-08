@@ -10,19 +10,27 @@ import ScrollToTop from './scrollToTop';
 import { resetCurrentPost } from '../actions';
 import SearchBar from './searchbar';
 
-// I watched this tutorial on framer-motion that teaches about
-// how to transition between react routes: https://www.youtube.com/watch?v=qJt-FtzJ5fo&ab_channel=CodingwithSeth
-// Then implemented in my app. The constants below are used to specify the animation
-// that happens on page transition, it is passed to each component's motion.div container
+// I watched this tutorial on framer-motion that teaches how to transition between
+// react routes using the framer motion package:
+// https://www.youtube.com/watch?v=qJt-FtzJ5fo&ab_channel=CodingwithSeth
+// Then implemented my own animation based on its guidance in my app.
+// The constants below are used to specify the animation that happens on page transition,
+// pageVariants are a lot like keyframes from css animations
+// pageTransitions are the time functions specifying how to animate from one keyframe to another.
+// Each component that will be animated is given a motion.div container and these variables
+// are passed to those containers to specify the animation.
 const pageVariants = {
+  // starting frame on entering
   initial: {
     opacity: 0,
     scaleX: 0,
   },
+  // frame once entering is finished
   in: {
     opacity: 1,
     scaleX: 1,
   },
+  // ending frame where exiting is finished
   out: {
     opacity: 0,
     scaleX: 0,
@@ -32,17 +40,6 @@ const pageTransition = {
   type: 'spring',
   stiffness: 100,
   bounce: 1,
-};
-
-const Nav = (props) => {
-  return (
-    <nav>
-      <ul>
-        <li><NavLink exact to="/"><i className="fas fa-home" />Home Page</NavLink></li>
-        <li><NavLink to="/posts/new">Create A Post<i className="fas fa-plus-square" /></NavLink></li>
-      </ul>
-    </nav>
-  );
 };
 
 // component loads on switch to "/posts/new" route, its purpose
@@ -55,7 +52,21 @@ const Reset = (props) => {
 };
 const PostReset = connect(null, { resetCurrentPost })(Reset);
 
+const Nav = (props) => {
+  return (
+    <nav>
+      <ul>
+        <li><NavLink exact to="/"><i className="fas fa-home" />Home Page</NavLink></li>
+        <li><NavLink to="/posts/new">Create A Post<i className="fas fa-plus-square" /></NavLink></li>
+      </ul>
+    </nav>
+  );
+};
+
 const App = (props) => {
+  // Animate Presence and passing the location to the location/key
+  // properties of the Switch are neccessary for the page transitions
+  // to work.
   return (
     <div className="App">
       <div>

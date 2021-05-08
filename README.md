@@ -2,7 +2,9 @@
 
 *description*
 
-[deployed url](http://url-if-deployed-here)
+[deployed url](https://unruffled-nightingale-6ea4fb.netlify.app/)
+
+https://github.com/dartmouth-cs52-21S/platform-client-jts307
 
 ## What Worked Well
 

@@ -4,9 +4,11 @@ import { errorClear } from '../actions';
 
 class Error extends Component {
   componentWillUnmount() {
+    // clearing error from redux state
     this.props.errorClear();
   }
 
+  // rendering error page based on current error in redux state
   render() {
     return (
       <div id="error">

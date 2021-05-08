@@ -9,8 +9,10 @@ class SearchBar extends Component {
     super(props);
     this.search = debounce(this.search, 300);
     this.state = { searchterm: '' };
+    this.inputReference = React.createRef();
   }
 
+  // searching for posts using inputted tags
   search = (text) => {
     this.props.searchTags(text);
   }
@@ -20,7 +22,21 @@ class SearchBar extends Component {
     this.search(event.target.value);
   }
 
+  // making clicking on the search icon put the search
+  // input in focus
+  handleSearchIconClick = () => {
+    this.inputReference.focus();
+  }
+
+  // same with pressing enter on icon
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSearchIconClick();
+    }
+  }
+
   renderSearchBarOrError() {
+    // making sure not to render search bar if an error occurs
     if (this.props.error != null) {
       return <div />;
     } else {
@@ -33,8 +49,20 @@ class SearchBar extends Component {
           transition={this.props.transition}
           id="search_bar"
         >
-          <i className="fa fa-search" />
-          <input onChange={this.onInputChange} value={this.state.searchterm} placeholder="Search Tags" />
+          <input
+            ref={(reference) => { this.inputReference = reference; }}
+            onChange={this.onInputChange}
+            value={this.state.searchterm}
+            placeholder="Search Tags..."
+          />
+          <i
+            className="fa fa-search"
+            onClick={this.handleSearchIconClick}
+            onKeyDown={this.handleKeyPress}
+            role="button"
+            tabIndex="0"
+            aria-label="Search Tags"
+          />
         </motion.div>
       );
     }
