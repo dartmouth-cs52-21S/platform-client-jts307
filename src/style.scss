@@ -1,36 +1,279 @@
+$themeColor1: rgb(242, 246, 249);
+$themeColor2: rgb(30, 136, 229);
+$themeColor3: rgb(19,96, 164);
 body, html {
   font-family: "Roboto", sans-serif;
-  background: linear-gradient(to bottom, rgb(133,255,198) 0%,rgb(83,241,241) 40%,rgb(5,45,224) 100%);
-  height: 100%;
+  background: linear-gradient(to bottom, rgb(133,255,198) 0%,rgb(83,241,241) 40%,rgb(34, 4, 207) 100%);
+  font-size: 30px;
+  color: $themeColor1;
+  padding: 0;
+  margin: 0;
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+a {
+  color: $themeColor2;
+  display: block;
+  font-weight: bold;
+  border: 3px solid rgba(0,0,0,0);
+  border-radius: 10px;
+}
+a:hover {
+  border: 3px solid $themeColor2;
+  border-radius: 10px;
+}
+a:active {
+  color: $themeColor3;
+  border: 3px solid $themeColor3;
+  transform: scale(.92);
+  transition: transform .1s ease-in-out;
+}
+.emoji {
+  display: inline-block;
+}
+// squishy emojis and poop :D
+.fa-poo:active, .emoji:active {
+  transform: scale(.9);
+  transition: transform .1s ease-in-out;
+}
+.fa-poo, .emoji {
+  cursor: grab;
+}
+.fa-plus-square {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.fa-poo {
+  margin-right: .7rem;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+p {
+  font-size: .7em;
+}
+.button{
+  font-size: 2em;
+  padding: 10px;
+}
+#warning{
+  color: rgb(212, 45, 45);
+}
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: $themeColor1;
+  height: 1rem;
+  padding: .4rem 0px .4rem 0px;
+  box-shadow: 0px 2.5px 2px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  ul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    li {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+}
+#search_bar {
+  z-index: 101;
+  position: fixed;
+  
+}
+#posts_list {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1 {
+    font-size: 3.2em;
+    background-color: $themeColor2;
+    border-radius: 10px;
+    padding: .2em;
+    box-shadow: 5px 3px 2px rgba(0, 0, 0, 0.5);
+    max-width: 780px;
+    box-sizing: border-box;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+    margin-bottom: 10vh;
+    li {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    a{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 10px solid $themeColor2;
+      box-sizing: border-box;
+      background-color: $themeColor1;
+      margin-bottom: 2vh;
+      border-radius: 10px;
+      transform: translate(.6vh,.6vh);
+      transition: transform .15s ease-out;
+      box-shadow: 5px 3px 2px rgba(0, 0, 0, 0.5);
+      text-decoration: none;
+      width: 95%;
+      margin-right: 2.5%;
+      box-sizing: border-box;
+      h2, p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 90%;
+        text-align: center;
+      }
+    }
+    a:hover {
+      color: $themeColor3;
+      border: 10px solid $themeColor3;
+      border-radius: 10px;
+      transform: translate(-.6vh,-.6vh);
+      transition: transform .15s ease-in;
+    }
+    a:active {
+      transform: scale(.88);
+      transition: transform .1s ease-out;
+      background: $themeColor2;
+    }
+  }
+  img {
+    height: auto;
+    width: 78%;
+    max-height: 65vh;
+  }
+}
+.post_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.edit_post {
+  margin-top: 3rem;
+  margin-bottom: 100px;
+  width: 80%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  background-color: $themeColor2;
+  border-radius: 10px;
+  border: 10px solid $themeColor1;
+  box-shadow: 6px 4px 2px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  .button {
+    width: 150px;
+    align-self: center;
+  }
+  #warning {
+    margin-top: 20px;
+    align-self: center;
+  }
+  p {
+    padding-bottom: 10px;
+    margin: 0;
+    font-size: .8em;
+  }
+  .edit_input {
+    margin-bottom: 20px;
+    font-size: .6em;
+  }
+  .edit_input:focus {
+    outline: solid 6px $themeColor3;
+  }
+}
+.view_post {
+  margin-top: 3rem;
+  margin-bottom: 100px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: darken($themeColor3, 8%);
+  border-radius: 10px;
+  border: 10px solid $themeColor1;
+  width: fit-content;
+  height: fit-content;
+  max-width: 80%;
+  box-shadow: 6px 4px 2px rgba(0, 0, 0, 0.5);
+  h1, p {
+    overflow-wrap: break-word;
+    overflow: hidden;
+    width: fit-content;
+    display: inline-block;
+    word-break: break-word;
+  }
+  .post_header, .post_buttons {
+    display: flex;
+    flex-direction: row;
+  }
+  .post_header {
+    justify-content: center;
+    align-items: center;
+    img {
+      margin-right: .5rem;
+      border: 5px solid $themeColor2;
+      border-radius: 5px;
+    }
+  }
+  .post_buttons {
+    justify-content: flex-start;
+  }
+  .post_buttons > * {
+    margin-right: 1rem;
+  }
+}
+#fallback, #error{
+  margin-top: 0.5rem;
+  margin-left: 9.5vw;
+  margin-right: 9.5vw;
+  font-size: 1.5em;
+  padding-left: .51vw;
+  padding-right: .51vw;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 40px;
-  color: #011407;
-}
-.logo {
-  background-image: url('img/KennyMcCormick.png');
-  width: 200px;
-  height: 200px;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-.active {
-  color: pink;
-}
-nav {
-  ul {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    align-items: center;
-    li {
-      margin-right: 5vw;
-      font-size: 2em;
-    }
+  flex-direction: column;
+  h1 {
+    background-color: $themeColor2;
+    border-radius: 10px;
+    box-shadow: 5px 3px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0;
+  }
+  p{
+    margin-top: 0.5rem;
+    background-color: $themeColor3;
+    border-radius: 10px;
+    box-shadow: 5px 3px 2px rgba(0, 0, 0, 0.5);
+    padding: 5px;
   }
 }
-p {
-  font-size: .7em;
+@media only screen and (max-width: 640px){
+  body, html {
+    font-size: 15px;
+  }
+  .post_buttons > .button{
+    font-size: .7em;
+    padding: 0;
+  }
 }
