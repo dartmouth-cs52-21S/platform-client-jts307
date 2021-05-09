@@ -20,14 +20,14 @@ class Posts extends Component {
     } else if (isEmptyObject(this.props.posts)) {
       return (
         <div id="posts_list">
-          <h1><i className="fas fa-poo" />Shitake Posts</h1>
+          <h1><i className="fas fa-poo" />Shiitake Posts</h1>
         </div>
       );
     // rendering the list of posts along with website title header
     } else {
       return (
         <div id="posts_list">
-          <h1><i className="fas fa-poo" />Shitake Posts</h1>
+          <h1><i className="fas fa-poo" />Shiitake Posts</h1>
           <ul>
             {this.props.posts.map((post) => {
               return (
