@@ -29,7 +29,10 @@ It is worth mentioning that the implementation for the post and new post are in 
 For extra credit, 
 
   -I added input validation so that you have to fill out all parts of a new post form for it to be submitted. If you don't, then an error shows up telling you to do so.
+  
   -I handled axios errors with a redux error state and two new actions for the error state. Whenever there was an error an error page pops up telling the user about the failure and what error message they got. 
+  
   -I added a search bar that takes space seperated tags as input. It fetches from the server for new posts, then uses this input to filter through the posts. Specifically, it filters out all posts that do not contain each inputted tag as a substring in one of their tags. For example, if you type "cat" you get posts with tags like "cat","cat-person", etc. If multiple tags are inputted, then only posts that contain all inputted tags will be displayed. For example, if you type "cat dog" then you only get posts that contain both the "cat" and "dog" tags. So you would get posts with a tag like "cat-something-dog". Also posts that contain each tag individually so like a post with tags "cat-person" and "dog-person".
+  
   -Lastly, I added a few animations using a few packages. The first package was "react-awesome-button". This button is used for the Edit, Delete, and Confirm buttons. It has some neat animations like if you move you mouse on hover it pushes down different parts of the button, and if you click a button it creates a cool ripple effect (you can see it the best if you try spamming the Confirm Button when confirming changes with empty invalid inputs). The second package was "framer-works" which I used to create the cool animation/transition on a page navigation in and out. The third package was the auto-resizing inputs package which allows the input fields for a new post to auto expand when typing. Also if you click the home page when on the home page it scrolls you to the top. The nav links/emojis have squishy animations when clicked. There is also some other miscellaneous styling. 
 
