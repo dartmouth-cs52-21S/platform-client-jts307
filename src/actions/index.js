@@ -11,8 +11,10 @@ export const ActionTypes = {
   SEARCH_POSTS: 'SEARCH_POSTS',
 };
 
-// used for fetching from server
-const ROOT_URL = 'https://platform.cs52.me/api';
+// urls used for fetching from servers
+// const ROOT_URL = 'https://platform.cs52.me/api';
+// const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://shiitakeposts.herokuapp.com/api';
 const API_KEY = '?key=jacob_werzinsky';
 
 // used example from lab assignment page
