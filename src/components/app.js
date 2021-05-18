@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import {
-  Route, NavLink, Switch, withRouter,
+  Route, Switch, withRouter,
 } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { connect } from 'react-redux';
 import Posts from './posts';
 import Post from './post';
 import ScrollToTop from './scrollToTop';
-import { resetCurrentPost } from '../actions';
+import { resetCurrentPost, errorClear } from '../actions';
 import SearchBar from './searchbar';
+import SignInAndUp from './signInAndUp';
+import Nav from './navbar';
+import PrivateRoute from './privateRoute';
 
 // I watched this tutorial on framer-motion that teaches how to transition between
 // react routes using the framer motion package:
@@ -42,26 +45,16 @@ const pageTransition = {
   bounce: 1,
 };
 
-// component loads on switch to "/posts/new" route, its purpose
-// is to reset the post state
+// component loads on switch to "/posts/new", "/signup", and "/signin" route, its purpose
+// is to reset the post state and error state
 const Reset = (props) => {
   useEffect(() => {
     props.resetCurrentPost();
+    props.errorClear();
   });
   return <div />;
 };
-const PostReset = connect(null, { resetCurrentPost })(Reset);
-
-const Nav = (props) => {
-  return (
-    <nav>
-      <ul>
-        <li><NavLink exact to="/"><i className="fas fa-home" />Home Page</NavLink></li>
-        <li><NavLink to="/posts/new">Create A Post<i className="fas fa-plus-square" /></NavLink></li>
-      </ul>
-    </nav>
-  );
-};
+const ConnectedReset = withRouter(connect(null, { resetCurrentPost, errorClear })(Reset));
 
 const App = (props) => {
   // Animate Presence and passing the location to the location/key
@@ -83,10 +76,10 @@ const App = (props) => {
                 </div>
               )}
             />
-            <Route path="/posts/new"
+            <PrivateRoute path="/posts/new"
               render={() => (
                 <div>
-                  <PostReset />
+                  <ConnectedReset />
                   <Post variants={pageVariants} transition={pageTransition} />
                 </div>
               )}
@@ -94,6 +87,22 @@ const App = (props) => {
             <Route path="/posts/:postID"
               render={() => (
                 <Post variants={pageVariants} transition={pageTransition} />
+              )}
+            />
+            <Route path="/signin"
+              render={() => (
+                <div>
+                  <ConnectedReset />
+                  <SignInAndUp variants={pageVariants} transition={pageTransition} />
+                </div>
+              )}
+            />
+            <Route path="/signup"
+              render={() => (
+                <div>
+                  <ConnectedReset />
+                  <SignInAndUp variants={pageVariants} transition={pageTransition} />
+                </div>
               )}
             />
             <Route render={() => (

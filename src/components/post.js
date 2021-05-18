@@ -78,12 +78,20 @@ class Post extends Component {
   }
 
   onEditPress = () => {
-    this.setState({ editMode: true });
+    if (this.props.auth) {
+      this.setState({ editMode: true });
+    } else {
+      this.props.history.push('/signin');
+    }
   }
 
   onDeletePress = (event) => {
     this.setState({ disableButton: true });
-    this.props.deletePost(this.props.post.id, this.props.history);
+    if (this.props.auth) {
+      this.props.deletePost(this.props.post.id, this.props.history);
+    } else {
+      this.props.history.push('/signin');
+    }
   }
 
   // shift+enter to submit while editing a Post
@@ -153,6 +161,7 @@ class Post extends Component {
             <img src={this.props.post.coverUrl} alt="Invalid Url" height="100px" width="100px" />
             <h1>{this.props.post.title}</h1>
           </div>
+          <div className="post_author"><strong>author:</strong> {this.props.post.author?.username || 'anonymous'}</div>
           <div className="post_content"><ReactMarkdown>{this.props.post.content}</ReactMarkdown></div>
           <p><strong>tags</strong>: {this.props.post.tags}</p>
           <div className="post_buttons">
@@ -174,6 +183,7 @@ class Post extends Component {
 const mapStateToProps = (state) => ({
   post: state.posts.current,
   error: state.error.status,
+  auth: state.auth.authenticated,
 });
 
 export default withRouter(connect(mapStateToProps, {

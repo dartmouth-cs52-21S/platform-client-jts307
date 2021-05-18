@@ -9,6 +9,9 @@ export const ActionTypes = {
   EDIT_POST_LOCALLY: 'EDIT_POST_LOCALLY',
   RESET_CURRENT_POST: 'RESET_CURRENT_POST',
   SEARCH_POSTS: 'SEARCH_POSTS',
+  AUTH_USER: 'AUTH_USER',
+  DEAUTH_USER: 'DEAUTH_USER',
+  AUTH_ERROR: 'AUTH_ERROR',
 };
 
 // urls used for fetching from servers
@@ -35,7 +38,7 @@ export function fetchPosts() {
 export function createPost(post, history) {
   return (dispatch) => {
     // sending newly created post to server
-    axios.post(`${ROOT_URL}/posts${API_KEY}`, post)
+    axios.post(`${ROOT_URL}/posts${API_KEY}`, post, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         // going to home page and dispatching action with returned new post data
         history.push('/');
@@ -49,8 +52,11 @@ export function createPost(post, history) {
 }
 export function updatePost(post) {
   return (dispatch) => {
+    // deleting author property because it causes issues if I leave it in
+    const postWithoutAuthor = { ...post };
+    delete postWithoutAuthor.author;
     // sending updated post to database for update
-    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, post)
+    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, postWithoutAuthor, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         // dispatching an action with returned updated post data
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
@@ -78,7 +84,7 @@ export function fetchPost(id) {
 export function deletePost(id, history) {
   return (dispatch) => {
     // sending a request to delete post from database
-    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`)
+    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         // going to home page and dispatching action with returned post data
         history.push('/');
@@ -99,7 +105,7 @@ export function resetCurrentPost() {
   return {
     type: ActionTypes.RESET_CURRENT_POST,
     payload: {
-      title: '', coverUrl: '', content: '', tags: '', id: '',
+      title: '', coverUrl: '', content: '', tags: '',
     },
   };
 }
@@ -133,5 +139,64 @@ export function searchTags(tags) {
         // dispatching action with error data if failure
         dispatch({ type: ActionTypes.ERROR_SET, error });
       });
+  };
+}
+
+// trigger to deauth if there is error
+// can also use in your error reducer if you have one to display an error message
+// I moved the error message to my error component to be displayed
+export function authError() {
+  return {
+    type: ActionTypes.AUTH_ERROR,
+  };
+}
+
+export function signinUser({ email, password }, history) {
+  // takes in an object with email and password (minimal user object)
+  // returns a thunk method that takes dispatch as an argument (just like our create post method really)
+  return (dispatch) => {
+    // does an axios.post on the /signin endpoint
+    axios.post(`${ROOT_URL}/signin${API_KEY}`, { email, password })
+      // on success does:
+      .then((response) => {
+        dispatch({ type: ActionTypes.AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/');
+      })
+      .catch((error) => {
+        // dispatching action with error data if failure
+        dispatch(authError());
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
+export function signupUser({ email, password, username }, history) {
+  // takes in an object with email and password (minimal user object)
+  // returns a thunk method that takes dispatch as an argument (just like our create post method really)
+  return (dispatch) => {
+    // does an axios.post on the /signup endpoint (only difference from above)
+    axios.post(`${ROOT_URL}/signup${API_KEY}`, { email, password, username })
+      // on success does:
+      .then((response) => {
+        dispatch({ type: ActionTypes.AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/');
+      })
+      .catch((error) => {
+        // dispatching action with error data if failure
+        dispatch(authError());
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
+// deletes token from localstorage
+// and deauths
+export function signoutUser(history) {
+  return (dispatch) => {
+    localStorage.removeItem('token');
+    dispatch({ type: ActionTypes.DEAUTH_USER });
+    history.push('/');
   };
 }

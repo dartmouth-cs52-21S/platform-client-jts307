@@ -36,6 +36,7 @@ class Posts extends Component {
                     <h2 className="title">{post.title}</h2>
                     <img src={post.coverUrl} alt="Invalid Post Cover Url" height="100px" width="100px" />
                     <p className="tags">tags: {post.tags}</p>
+                    <p className="author">author: {post.author?.username || 'anonymous'}</p>
                   </Link>
                 </li>
               );
