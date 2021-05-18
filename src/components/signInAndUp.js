@@ -51,6 +51,9 @@ class SignInAndUp extends Component {
   }
 
   onConfirmPress = (event) => {
+    if (this.state.disableButton) {
+        return;
+    }
     this.setState({ disableButton: true });
     const inputs = {
       email: this.state.email,
@@ -66,12 +69,11 @@ class SignInAndUp extends Component {
       } else {
         this.props.signupUser(inputs, this.props.history);
       }
-      setTimeout(this.setState({ disableButton: false }), 2000);
     // display warning message
     } else {
       this.setState({ displayWarning: 'inline' });
-      this.setState({ disableButton: false });
     }
+    this.setState({ disableButton: false });
   }
 
   // shift+enter to submit while editing a Post
