@@ -51,13 +51,13 @@ class SignInAndUp extends Component {
   }
 
   onConfirmPress = (event) => {
+    this.setState({ disableButton: true });
     const inputs = {
       email: this.state.email,
       password: this.state.password,
       username: this.state.username,
     };
     if (this.isValidInput(inputs)) {
-      this.setState({ disableButton: true });
       this.setState({ displayWarning: 'none' });
       // sign in the user
       if (this.props.match.path === '/signin') {
@@ -66,10 +66,11 @@ class SignInAndUp extends Component {
       } else {
         this.props.signupUser(inputs, this.props.history);
       }
-      setTimeout(this.setState({ disableButton: false }), 1000);
+      setTimeout(this.setState({ disableButton: false }), 2000);
     // display warning message
     } else {
       this.setState({ displayWarning: 'inline' });
+      this.setState({ disableButton: false });
     }
   }
 
