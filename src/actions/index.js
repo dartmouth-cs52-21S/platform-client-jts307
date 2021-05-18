@@ -159,9 +159,9 @@ export function signinUser({ email, password }, history) {
     axios.post(`${ROOT_URL}/signin${API_KEY}`, { email, password })
       // on success does:
       .then((response) => {
+        history.push('/');
         dispatch({ type: ActionTypes.AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        history.push('/');
       })
       .catch((error) => {
         // dispatching action with error data if failure
@@ -179,9 +179,9 @@ export function signupUser({ email, password, username }, history) {
     axios.post(`${ROOT_URL}/signup${API_KEY}`, { email, password, username })
       // on success does:
       .then((response) => {
+        history.push('/');
         dispatch({ type: ActionTypes.AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        history.push('/');
       })
       .catch((error) => {
         // dispatching action with error data if failure
@@ -195,8 +195,8 @@ export function signupUser({ email, password, username }, history) {
 // and deauths
 export function signoutUser(history) {
   return (dispatch) => {
+    history.push('/');
     localStorage.removeItem('token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
-    history.push('/');
   };
 }
