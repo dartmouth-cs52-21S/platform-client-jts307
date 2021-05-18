@@ -52,7 +52,7 @@ class SignInAndUp extends Component {
 
   onConfirmPress = (event) => {
     if (this.state.disableButton) {
-        return;
+      return;
     }
     this.setState({ disableButton: true });
     const inputs = {
