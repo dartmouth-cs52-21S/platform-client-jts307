@@ -71,6 +71,7 @@ class SignInAndUp extends Component {
     // display warning message
     } else {
       this.setState({ displayWarning: 'inline' });
+      this.setState({ disableButton: false });
     }
   }
 
