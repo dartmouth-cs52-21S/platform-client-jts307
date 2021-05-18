@@ -66,6 +66,7 @@ class SignInAndUp extends Component {
       } else {
         this.props.signupUser(inputs, this.props.history);
       }
+      this.setState({ disableButton: false });
     // display warning message
     } else {
       this.setState({ displayWarning: 'inline' });
