@@ -66,11 +66,12 @@ class SignInAndUp extends Component {
       } else {
         this.props.signupUser(inputs, this.props.history);
       }
+      setTimeout(() => { this.setState({ disableButton: false }); }, 2000);
     // display warning message
     } else {
       this.setState({ displayWarning: 'inline' });
+      this.setState({ disableButton: false });
     }
-    setTimeout(() => { this.setState({ disableButton: true }) }, 3000);
   }
 
   // shift+enter to submit while editing a Post
