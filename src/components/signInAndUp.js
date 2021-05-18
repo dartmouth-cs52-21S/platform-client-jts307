@@ -51,9 +51,6 @@ class SignInAndUp extends Component {
   }
 
   onConfirmPress = (event) => {
-    if (this.state.disableButton) {
-      return;
-    }
     this.setState({ disableButton: true });
     const inputs = {
       email: this.state.email,
@@ -73,7 +70,7 @@ class SignInAndUp extends Component {
     } else {
       this.setState({ displayWarning: 'inline' });
     }
-    this.setState({ disableButton: false });
+    setTimeout(() => { this.setState({ disableButton: true }) }, 3000);
   }
 
   // shift+enter to submit while editing a Post
