@@ -38,7 +38,7 @@ export function fetchPosts() {
 export function createPost(post, history) {
   return (dispatch) => {
     // sending newly created post to server
-    axios.post(`${ROOT_URL}/posts${API_KEY}`, post, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${ROOT_URL}/posts${API_KEY}`, post, { headers: { authorization: localStorage.getItem('shiitake_token') } })
       .then((response) => {
         // going to home page and dispatching action with returned new post data
         history.push('/');
@@ -56,7 +56,7 @@ export function updatePost(post) {
     const postWithoutAuthor = { ...post };
     delete postWithoutAuthor.author;
     // sending updated post to database for update
-    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, postWithoutAuthor, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, postWithoutAuthor, { headers: { authorization: localStorage.getItem('shiitake_token') } })
       .then((response) => {
         // dispatching an action with returned updated post data
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
@@ -84,7 +84,7 @@ export function fetchPost(id) {
 export function deletePost(id, history) {
   return (dispatch) => {
     // sending a request to delete post from database
-    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`, { headers: { authorization: localStorage.getItem('token') } })
+    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`, { headers: { authorization: localStorage.getItem('shiitake_token') } })
       .then((response) => {
         // going to home page and dispatching action with returned post data
         history.push('/');
@@ -161,7 +161,7 @@ export function signinUser({ email, password }, history) {
       .then((response) => {
         history.push('/');
         dispatch({ type: ActionTypes.AUTH_USER });
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('shiitake_token', response.data.token);
       })
       .catch((error) => {
         // dispatching action with error data if failure
@@ -181,7 +181,7 @@ export function signupUser({ email, password, username }, history) {
       .then((response) => {
         history.push('/');
         dispatch({ type: ActionTypes.AUTH_USER });
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('shiitake_token', response.data.token);
       })
       .catch((error) => {
         // dispatching action with error data if failure
@@ -196,7 +196,7 @@ export function signupUser({ email, password, username }, history) {
 export function signoutUser(history) {
   return (dispatch) => {
     history.push('/');
-    localStorage.removeItem('token');
+    localStorage.removeItem('shiitake_token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
   };
 }

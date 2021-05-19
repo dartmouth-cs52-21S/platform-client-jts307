@@ -18,7 +18,7 @@ const store = createStore(reducers, {}, compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
 ));
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('shiitake_token');
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER });
 }
