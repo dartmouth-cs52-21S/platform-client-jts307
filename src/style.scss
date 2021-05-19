@@ -58,7 +58,7 @@ p {
   font-size: 2em;
   padding: 10px;
 }
-#warning{
+.warning{
   color: rgb(212, 45, 45);
 }
 nav {
@@ -255,24 +255,66 @@ nav {
     width: 150px;
     align-self: center;
   }
-  #warning {
+  .warning {
     margin-top: 20px;
     align-self: center;
+    text-align: center;
   }
-  p {
+  #preview {
+    height: auto;
+    width: 50%;
+  }
+  .image_upload_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .checkbox_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 10px;
+    p {
+      padding: 0;
+    }
+  }
+  #image_upload_checkbox {
+    width: 7vw;
+    height: 7vh;
+    max-width: 30px;
+    max-height: 30px;
+    margin-bottom: 1px;
+    margin-left: 7px;
+  }
+  .image_input {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: .6em;
+    width: 50%;
+    color: $themeColor1;
+  }
+  h1 {
     padding-bottom: 10px;
     margin: 0;
     font-size: .8em;
   }
+  p {
+    padding-bottom: 10px;
+    margin: 0;
+    font-size: .7em;
+  }
   .edit_input, .form_input {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-size: .6em;
     color: $themeColor3;
     background-color: $themeColor1;
   }
-  .edit_input:focus, .form_input:focus {
+  .edit_input:focus, .form_input:focus, .image_input:hover {
     outline: solid 6px $themeColor3;
   }
+}
+#image_upload_checkbox:hover {
+  outline: solid 4px $themeColor3;
 }
 .view_post {
   margin-top: 3rem;
@@ -300,12 +342,16 @@ nav {
     flex-direction: row;
   }
   .post_header {
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-bottom: 10px;
     img {
       margin-right: .5rem;
       border: 5px solid $themeColor2;
       border-radius: 5px;
+      width: 30%;
+      height: auto;
+      max-height: 200px;
     }
   }
   .post_buttons {
@@ -360,5 +406,8 @@ nav {
   nav > ul > li > ul > li {
     margin-left: 0px;
     margin-right: 0px;
+  }
+  #image_upload_checkbox:hover {
+    outline: none;
   }
 }

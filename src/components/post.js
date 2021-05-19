@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
@@ -7,6 +8,7 @@ import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-blue.css';
 import { withRouter } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import uploadImage from '../s3';
 import {
   fetchPost, editPostLocally, resetCurrentPost, createPost, updatePost, deletePost,
 } from '../actions';
@@ -21,6 +23,10 @@ class Post extends Component {
       // requests *might not be neccesary after I added the page transitions*
       disableButton: false,
       displayWarning: 'none', // display warning when not all inputs are filled out
+      displayImageWarning: 'none', // display warning if error occurs with image upload
+      file: null,
+      preview: 'https://cdn.pixabay.com/photo/2016/09/29/13/08/planet-1702788_960_720.jpg',
+      useImageUpload: false,
     };
   }
 
@@ -41,12 +47,22 @@ class Post extends Component {
     this.props.editPostLocally({ title: event.target.value });
   }
 
+  onTagsChange = (event) => {
+    this.props.editPostLocally({ tags: event.target.value });
+  }
+
   onCoverUrlChange = (event) => {
     this.props.editPostLocally({ coverUrl: event.target.value });
   }
 
-  onTagsChange = (event) => {
-    this.props.editPostLocally({ tags: event.target.value });
+  // s3 image uploading
+  onImageUpload = (event) => {
+    const file = event.target.files[0];
+    // Handle null file
+    // Get url of the file and set it to the src of preview
+    if (file) {
+      this.setState({ preview: window.URL.createObjectURL(file), file });
+    }
   }
 
   // function returns true if post is valid, i.e. has only spaces in any input.
@@ -60,26 +76,44 @@ class Post extends Component {
   }
 
   onConfirmPress = (event) => {
-    if (this.isValidInput(this.props.post)) {
-      this.setState({ displayWarning: 'none' });
-      // create new post
-      if (this.props.match.path === '/posts/new') {
-        this.setState({ disableButton: true });
-        this.props.createPost(this.props.post, this.props.history);
-      // update existing post
+    let imageError = false;
+    this.setState({ disableButton: true });
+    if (this.state.file && this.state.useImageUpload) {
+      uploadImage(this.state.file).then((url) => {
+        // use url for content_url
+        this.props.editPostLocally({ coverUrl: url });
+      }).catch((error) => {
+        // handle error by displaying a warning
+        imageError = true;
+        this.setState({ displayWarning: 'none' });
+        this.setState({ displayImageWarning: 'inline' });
+        this.setState({ disableButton: false });
+      });
+    }
+    if (!imageError) {
+      if (this.isValidInput(this.props.post)) {
+        this.setState({ displayWarning: 'none' });
+        // create new post
+        if (this.props.match.path === '/posts/new') {
+          this.props.createPost(this.props.post, this.props.history);
+        // update existing post
+        } else {
+          this.setState({ editMode: false });
+          this.props.updatePost(this.props.post);
+          this.setState({ disableButton: false });
+        }
+      // display warning message if invalid input
       } else {
-        this.setState({ editMode: false });
-        this.props.updatePost(this.props.post);
+        this.setState({ displayImageWarning: 'none' });
+        this.setState({ displayWarning: 'inline' });
+        this.setState({ disableButton: false });
       }
-    // display warning message
-    } else {
-      this.setState({ displayWarning: 'inline' });
     }
   }
 
   onEditPress = () => {
     if (this.props.auth) {
-      this.setState({ editMode: true });
+      this.setState({ editMode: true, preview: this.props.post.coverUrl });
     } else {
       this.props.history.push('/signin');
     }
@@ -92,6 +126,12 @@ class Post extends Component {
     } else {
       this.props.history.push('/signin');
     }
+  }
+
+  onCheckboxChange = (event) => {
+    this.setState((prevState) => ({
+      useImageUpload: !prevState.useImageUpload,
+    }));
   }
 
   // shift+enter to submit while editing a Post
@@ -128,18 +168,32 @@ class Post extends Component {
           transition={this.props.transition}
           className="edit_post"
         >
-          <p>Title:</p>
+          <h1>Title:</h1>
           <TextareaAutosize className="edit_input" onChange={this.onTitleChange} onKeyDown={this.handleEnterPress} value={this.props.post.title} />
-          <p>Post Cover Image Url:</p>
+          <h1>Post Cover Image:</h1>
+          <p>Provide an image url:</p>
           <TextareaAutosize maxRows={4} className="edit_input" onChange={this.onCoverUrlChange} onKeyDown={this.handleEnterPress} value={this.props.post.coverUrl} />
-          <p>Content (supports Markdown):</p>
+          <p>Or upload an image:</p>
+          <div className="image_upload_container">
+            <div className="checkbox_container">
+              <p>Check here to use uploaded image &#x2192;</p>
+              <input type="checkbox" id="image_upload_checkbox" name="image_upload_check" value="Image" onChange={this.onCheckboxChange} />
+            </div>
+            <img id="preview" alt="preview" src={this.state.preview} />
+            <input className="image_input" type="file" name="coverImage" onChange={this.onImageUpload} />
+          </div>
+          <h1>Content (supports Markdown):</h1>
           <TextareaAutosize className="edit_input" onChange={this.onContentChange} onKeyDown={this.handleEnterPress} value={this.props.post.content} />
-          <p>Tags:</p>
+          <h1>Tags:</h1>
           <TextareaAutosize className="edit_input" onChange={this.onTagsChange} onKeyDown={this.handleEnterPress} value={this.props.post.tags} />
           <AwesomeButton disabled={this.state.disableButton} onPress={this.onConfirmPress} className="button" ripple type="secondary">
             <div className="button">Confirm</div>
           </AwesomeButton>
-          <div id="warning" style={{ display: `${this.state.displayWarning}` }}>Please fill out all fields.</div>
+          <div className="warning" style={{ display: `${this.state.displayWarning}` }}>Please fill out all fields.</div>
+          <div className="warning" style={{ display: `${this.state.displayImageWarning}` }}>
+            Something went wrong with the cover image you tried to upload. <br />
+            Try again or try a different image.
+          </div>
         </motion.div>
       );
     // rendering an empty div, mainly here to prevent a brief flash of an empty post
