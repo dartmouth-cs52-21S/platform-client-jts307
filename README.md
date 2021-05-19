@@ -1,3 +1,29 @@
+# Shiitake Posts (after adding s3 Uploading)
+
+This is my posting platform with the added ability for user's to upload their own images. For a more thorough description of the base posting platform scroll to the bottom. For the cover image, a user can either select to upload their own image or use an image url. I thought that both features had their use cases so I kept both. There is a checkbox you have to click to use image uploading. The image preview shows the current cover Url image if editting a post and then changes accordingly if you upload an image. It defaults to a stock image of some mountains if creating a new post.
+
+[deployed url for client](https://unruffled-nightingale-6ea4fb.netlify.app/)
+
+[deployed url for api](https://shiitakeposts.herokuapp.com/)
+
+## What Worked Well
+
+- Since I previously made my post and new post component into one, the process of adding uploading to both was really simple.
+
+- The design of editting a post/creating a new post looks better with the added image preview. 
+
+## What Didn't
+
+- I am just noticing now that the initial time my site loads it takes a good 30 seconds for the posts feed to load. After that, it works fine. I am not sure if its something I did wrong in the setup or maybe its my internet connection. This does not happen in my local environment. 
+
+- The assignment page was not updated for Amazon's new site layout. Navigating their site was surprisingly difficult because of how many things/menus there are. 
+
+- Besides that, the assignment seemed pretty straight forward. 
+
+## Extra Credit
+
+- maybe the feature to switch between cover image url input and uploading an image from your computer?
+
 # Shiitake Posts (after adding user authentication, SA7)
 
 This is my posting platform with an added layer of user authentication. For a more thorough description of the base posting platform scroll to the bottom. For the user authentication, I implemented it as specified in the short assignment. For displaying authors, I had quite a few old posts that I did not want to delete so I made it so that any post without an author will have "anonymous" as an author. The author appears in the bottom-right corner of a post when viewing the main posts page and appears near the top of a post in a post's full view mode. I made it so that you cannot sign up with a repeat user name and you have to fill out all fields in the sign in/up. If you did not fill out all fields you will get a small message at the bottom telling you to do so and if you entered bad credentials you will be shown an error page. 
