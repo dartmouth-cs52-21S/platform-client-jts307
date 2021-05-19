@@ -16,8 +16,8 @@ export const ActionTypes = {
 
 // urls used for fetching from servers
 // export const ROOT_URL = 'https://platform.cs52.me/api';
-// export const ROOT_URL = 'http://localhost:9090/api';
-export const ROOT_URL = 'https://shiitakeposts.herokuapp.com/api';
+export const ROOT_URL = 'http://localhost:9090/api';
+// export const ROOT_URL = 'https://shiitakeposts.herokuapp.com/api';
 export const API_KEY = '?key=jacob_werzinsky';
 
 // used example from lab assignment page

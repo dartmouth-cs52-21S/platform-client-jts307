@@ -75,40 +75,43 @@ class Post extends Component {
     && (post.coverUrl?.replace(/\s/g, '').length) && (post.tags?.replace(/\s/g, '').length));
   }
 
+  sendNewOrUpdatedPost = () => {
+    // making sure there are no empty fields
+    if (this.isValidInput(this.props.post)) {
+      this.setState({ displayWarning: 'none' });
+      // create new post
+      if (this.props.match.path === '/posts/new') {
+        this.props.createPost(this.props.post, this.props.history);
+        // update existing post
+      } else {
+        this.setState({ editMode: false });
+        this.props.updatePost(this.props.post);
+        this.setState({ disableButton: false });
+      }
+      // display warning message if invalid input
+    } else {
+      this.setState({ displayImageWarning: 'none' });
+      this.setState({ displayWarning: 'inline' });
+      this.setState({ disableButton: false });
+    }
+  }
+
   onConfirmPress = (event) => {
-    let imageError = false;
     this.setState({ disableButton: true });
     if (this.state.file && this.state.useImageUpload) {
       uploadImage(this.state.file).then((url) => {
-        // use url for content_url
-        this.props.editPostLocally({ coverUrl: url });
+        // use s3 uploaded image url for cover url
+        this.props.editPostLocally({ coverUrl: url, file: null, useImageUpload: false });
+        this.sendNewOrUpdatedPost();
       }).catch((error) => {
         // handle error by displaying a warning
-        imageError = true;
         this.setState({ displayWarning: 'none' });
         this.setState({ displayImageWarning: 'inline' });
         this.setState({ disableButton: false });
       });
-    }
-    if (!imageError) {
-      // making sure there are no empty fields
-      if (this.isValidInput(this.props.post)) {
-        this.setState({ displayWarning: 'none' });
-        // create new post
-        if (this.props.match.path === '/posts/new') {
-          this.props.createPost(this.props.post, this.props.history);
-        // update existing post
-        } else {
-          this.setState({ editMode: false });
-          this.props.updatePost(this.props.post);
-          this.setState({ disableButton: false });
-        }
-      // display warning message if invalid input
-      } else {
-        this.setState({ displayImageWarning: 'none' });
-        this.setState({ displayWarning: 'inline' });
-        this.setState({ disableButton: false });
-      }
+    } else {
+      // use user inputted cover image url
+      this.sendNewOrUpdatedPost();
     }
   }
 

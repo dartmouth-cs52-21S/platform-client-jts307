@@ -349,9 +349,16 @@ nav {
       margin-right: .5rem;
       border: 5px solid $themeColor2;
       border-radius: 5px;
-      width: 30%;
+      width: 200px;
       height: auto;
       max-height: 200px;
+    }
+  }
+  .post_content {
+    max-width: 100%;
+    img {
+      max-width: 100%;
+      max-height: 100%;
     }
   }
   .post_buttons {
