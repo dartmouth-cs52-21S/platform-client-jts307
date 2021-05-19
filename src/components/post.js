@@ -26,7 +26,7 @@ class Post extends Component {
       displayImageWarning: 'none', // display warning if error occurs with image upload
       file: null,
       preview: 'https://cdn.pixabay.com/photo/2016/09/29/13/08/planet-1702788_960_720.jpg',
-      useImageUpload: false,
+      useImageUpload: false, // did the user indicate they want to use image uploading
     };
   }
 
@@ -91,6 +91,7 @@ class Post extends Component {
       });
     }
     if (!imageError) {
+      // making sure there are no empty fields
       if (this.isValidInput(this.props.post)) {
         this.setState({ displayWarning: 'none' });
         // create new post
