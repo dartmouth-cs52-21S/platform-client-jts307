@@ -1,86 +1,32 @@
-# Shiitake Posts (after adding s3 Uploading)
+# Shiitake Posts
 
-This is my posting platform with the added ability for user's to upload their own images. For a more thorough description of the base posting platform scroll to the bottom. For the cover image, a user can either select to upload their own image or use an image url. I thought that both features had their use cases so I kept both. There is a checkbox you have to click to use image uploading. The image preview shows the current cover Url image if editting a post and then changes accordingly if you upload an image. It defaults to a stock image of some mountains if creating a new post.
+### So what exactly is Shiitake Posts??????
+It’s simple really. It’s a social media site that allows its users to post whatever wacky, goofy, silly, foolish, idiotic, asinine, ridiculous, senseless, inane, wholesome image or text they want in Markdown. Most of the memes on the site are ones posted by me and my friends, a couple by a professor or two lol. You can add to the collection too! Just go to the site, create an account, and make a post! That wasn’t a suggestion, do it now!
 
-[deployed url for client](https://unruffled-nightingale-6ea4fb.netlify.app/)
+[Click here to see the site](https://unruffled-nightingale-6ea4fb.netlify.app/)
 
-[deployed url for api](https://shiitakeposts.herokuapp.com/)
+### API
 
-## What Worked Well
-
-- Since I previously made my post and new post component into one, the process of adding uploading to both was really simple.
-
-- The design of editting a post/creating a new post looks better with the added image preview. 
-
-## What Didn't
-
-- I am just noticing now that the initial time my site loads it takes a good 30 seconds for the posts feed to load. After that, it works fine. I am not sure if its something I did wrong in the setup or maybe its my internet connection. This does not happen in my local environment. 
-
-- The assignment page was not updated for Amazon's new site layout. Navigating their site was surprisingly difficult because of how many things/menus there are. 
-
-- Besides that, the assignment seemed pretty straight forward. 
-
-## Extra Credit
-
-- maybe the feature to switch between cover image url input and uploading an image from your computer?
-
-# Shiitake Posts (after adding user authentication, SA7)
-
-This is my posting platform with an added layer of user authentication. For a more thorough description of the base posting platform scroll to the bottom. For the user authentication, I implemented it as specified in the short assignment. For displaying authors, I had quite a few old posts that I did not want to delete so I made it so that any post without an author will have "anonymous" as an author. The author appears in the bottom-right corner of a post when viewing the main posts page and appears near the top of a post in a post's full view mode. I made it so that you cannot sign up with a repeat user name and you have to fill out all fields in the sign in/up. If you did not fill out all fields you will get a small message at the bottom telling you to do so and if you entered bad credentials you will be shown an error page. 
-
-[deployed url for client](https://unruffled-nightingale-6ea4fb.netlify.app/)
+[Github for API](https://github.com/dartmouth-cs52-21S/platform-api-jts307)
 
 [deployed url for api](https://shiitakeposts.herokuapp.com/)
 
-## What Worked Well
+## Instructions for starting the website locally
 
-- I was able to reuse a few of the smaller features I implemented before like page animations, button designs, error pop ups, making sure that all fields are filled out, etc. in my sign in/sign up pages. 
+- Install Node.js
+- Run `npm install` in terminal
+- Run `npm start` in terminal
 
-- With the added Sign in and up links in my nav bar and the simplication of my Create a Post button, I was able to create a better looking iteration of my nav bar.
+## Architecture
 
-## What Didn't
+- Figma 
+- React 
+- Redux
+- Passport.js
+- Node.js
+- Amazon S3
+- MongoDB
+- Framer Motion 
 
-- I could not figure out how to show the type of authenification error failure (e.g. if a failure was due to a bad email address or a bad username). The current error message just shows error codes that are not particularly useful to the average user. If you get an error it might be hard to tell what you did wrong. I cleared out any test users except for myself: username: Jacob, email: f003frq@dartmouth.edu, so you shoudn't need to worry about repeats. Every email and username besides these should work. 
-
-## Extra Credit
-
-none :(
-
-# Shiitake Posts (before adding user authentication)
-
-I created a standard post sharing app as described in the lab assignment. The site is supposed to be for mildly funny memes hence its name. The site has a blue and white theme with some animations like hover animations on links, animations between page transitions, and animated buttons. The site also has a search bar which you can type tags in to filter out posts by tags. To populate the site with content I got some of my friends to post stuff which was fun. I checked to make sure they did not post anything to crazy, but there is a chance I missed something so I apologize if that is the case. 
-
-It is worth mentioning that the implementation for the post and new post are in the same Post Component file as recommended in the lab assignment.
-
-[deployed url](https://unruffled-nightingale-6ea4fb.netlify.app/)
-
-## What Worked Well
-
--I tried to keep the color scheme simple this time around so I tried to stick to only 3 colors (white, blue, dark blue) as much as possible. I think the site ended up looking good for my standards.
-
--I tried to limit myself from using React state whenever it made more sense to use Redux and I think I did an okay job at that. Overall, I feel like I understand redux and thunks a lot clearer. 
-
--Sharing the site with my friends and allowing them to post content on it was surprisingly really fun. The experience of getting to see something you built get used by others is awesome.  
-
--It was harder than expected to get the post and new post to work together as one component. In the end though, I think I did an okay job of making it happen. 
-
-## What Didn't
-
--With the search bar, if you hold mouse on the search icon the focus leaves the search input. This does not impact functionality at all but it flashes the border around the search box which is kind of weird. I realized after making the search icon a clickable event that I could have just made the background of the input transparent, added some padding to the right, and then put the search icon behind the input box where the padding would be. This probably would have been made things a little simplier and fixed this little visual glitch. 
-
--I wanted to make the tags search algorithm a bit more robust by rankng the results of the search term, but after thinking about it for a bit I could only come up with algorithms that probably would have been really messy to implement, so I kept it relatively simple. 
-
--There is no animation between choosing to edit a post and confirming changes on a post. This was due to how the framer-motion package as it is set up in my project does animations based on whether the path changed. The path does not change when going to edit mode. I could probably add a new "..:postid/edit path". In the future, I will likely keep any major page transitions like a switch to an edit as a new path to make it work with framer-motion better.
-
-## Extra Credit
-
-For extra credit, 
-
-  -I added input validation so that you have to fill out all parts of a new post form for it to be submitted. If you don't, then an error shows up telling you to do so.
-  
-  -I handled axios errors with a redux error state and two new actions for the error state. Whenever there was an error an error page pops up telling the user about the failure and what error message they got. 
-  
-  -I added a search bar that takes space seperated tags as input. It fetches from the server for new posts, then uses this input to filter through the posts. Specifically, it filters out all posts that do not contain each inputted tag as a substring in one of their tags. For example, if you type "cat" you get posts with tags like "cat","cat-person", etc. If multiple tags are inputted, then only posts that contain all inputted tags will be displayed. For example, if you type "cat dog" then you only get posts that contain both the "cat" and "dog" tags. So you would get posts with a tag like "cat-something-dog". Also posts that contain each tag individually so like a post with tags "cat-person" and "dog-person".
-  
-  -Lastly, I added a few animations using a few packages. The first package was "react-awesome-button". This button is used for the Edit, Delete, and Confirm buttons. It has some neat animations like if you move you mouse on hover it pushes down different parts of the button, and if you click a button it creates a cool ripple effect (you can see it the best if you try spamming the Confirm Button when confirming changes with empty invalid inputs). The second package was "framer-works" which I used to create the cool animation/transition on a page navigation in and out. The third package was the auto-resizing inputs package which allows the input fields for a new post to auto expand when typing. Also if you click the home page when on the home page it scrolls you to the top. The nav links/emojis have squishy animations when clicked. There is also some other miscellaneous styling. 
-
+## Author: 
+- [Jacob Werzinsky](https://github.com/jts307)
