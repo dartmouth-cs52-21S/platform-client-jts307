@@ -1,7 +1,7 @@
 # Shiitake Posts
 
 ### So what exactly is Shiitake Posts??????
-It’s simple really. It’s a social media site that allows its users to post whatever wacky, goofy, silly, foolish, idiotic, asinine, ridiculous, senseless, inane, wholesome image or text they want in Markdown. Most of the memes on the site are ones posted by me and my friends, a couple by a professor or two lol. You can add to the collection too! Just go to the site, create an account, and make a post! That wasn’t a suggestion, do it now!
+It’s simple really. It’s a social media site that allows its users to post whatever wacky, goofy, silly, foolish, idiotic, asinine, ridiculous, senseless, inane, wholesome image or text they want in Markdown. Most of the memes on the site are ones posted by me and my friends, a couple by a professor or two lol. You can add to the collection too! Just go to the site, create an account, and make a post! That wasn’t a suggestion, do it now! :point_down:
 
 [Click here to see the site](https://unruffled-nightingale-6ea4fb.netlify.app/)
 
